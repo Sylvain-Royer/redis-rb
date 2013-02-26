@@ -1495,9 +1495,12 @@ class Redis
   # @param [String] key
   # @param [String] member
   # @return [Fixnum]
-  def zrank(key, member)
+  def zrank(key, member, options = {})
+    args = []
+    args << "UNIQUE" if options[:unique]
+
     synchronize do |client|
-      client.call([:zrank, key, member])
+      client.call([:zrank, key, member] + args)
     end
   end
 
@@ -1507,9 +1510,12 @@ class Redis
   # @param [String] key
   # @param [String] member
   # @return [Fixnum]
-  def zrevrank(key, member)
+  def zrevrank(key, member, options = {})
+    args = []
+    args << "UNIQUE" if options[:unique]
+
     synchronize do |client|
-      client.call([:zrevrank, key, member])
+      client.call([:zrevrank, key, member] + args)
     end
   end
 

@@ -77,6 +77,12 @@ module Lint
       r.zadd "foo", 3, "s3"
 
       assert_equal 2, r.zrank("foo", "s3")
+
+      r.zadd "foo", 2, "s4"
+
+      assert_equal 1, r.zrank("foo", "s2", :unique => true)
+      assert_equal 1, r.zrank("foo", "s4", :unique => true)
+      assert_equal 2, r.zrank("foo", "s4")
     end
 
     def test_zrevrank
@@ -85,6 +91,12 @@ module Lint
       r.zadd "foo", 3, "s3"
 
       assert_equal 0, r.zrevrank("foo", "s3")
+      
+      r.zadd "foo", 2, "s4"
+
+      assert_equal 1, r.zrevrank("foo", "s2", :unique => true)
+      assert_equal 1, r.zrevrank("foo", "s4", :unique => true)
+      assert_equal 2, r.zrevrank("foo", "s2")
     end
 
     def test_zrange
